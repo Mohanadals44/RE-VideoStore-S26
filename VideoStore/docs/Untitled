@@ -1,0 +1,160 @@
+mkdir -p "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram"
+initial_class_diagram.puml(new)
++41
+@startuml initial_class_diagram
+skinparam classAttributeIconSize 0
+skinparam classFontSize 14
+skinparam classFontStyle bold
+class Movie {
+    {static} +REGULAR : int = 0
+Now let me generate the PNG diagram. I'll check if PlantUML is available or use an alternative method.
+which plantuml 2>/dev/null; java -version 2>&1 | head -1; ls /usr/local/bin/plantuml* 2>/dev/null; ls ~/plantuml* 2>/dev/null; brew list plantuml 2>/dev/null | head -3
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+No Java or PlantUML installed locally. I'll use the PlantUML online server to generate the diagram.
+which python3 && python3 --version
+/Library/Frameworks/Python.framework/Versions/3.12/bin/python3
+Python 3.12.8
+python3 -c "import zlib, base64; print('available')"
+available
+python3 << 'PYEOF'
+import zlib
+import base64
+import urllib.request
+import os
+
+# Read the PlantUML source
+puml_path = "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.puml"
+with open(puml_path, 'r') as f:
+    plantuml_text = f.read()
+
+# PlantUML text encoding (deflate + custom base64)
+def encode_plantuml(text):
+    compressed = zlib.compress(text.encode('utf-8'))[2:-4]  # raw deflate
+    encoded = ""
+    alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
+    i = 0
+    data = compressed
+    while i < len(data):
+        if i + 2 < len(data):
+            b1, b2, b3 = data[i], data[i+1], data[i+2]
+        elif i + 1 < len(data):
+            b1, b2, b3 = data[i], data[i+1], 0
+        else:
+            b1, b2, b3 = data[i], 0, 0
+
+        encoded += alphabet[b1 >> 2]
+        encoded += alphabet[((b1 & 0x3) << 4) | (b2 >> 4)]
+        encoded += alphabet[((b2 & 0xF) << 2) | (b3 >> 6)]
+        encoded += alphabet[b3 & 0x3F]
+        i += 3
+    return encoded
+
+encoded = encode_plantuml(plantuml_text)
+url = f"http://www.plantuml.com/plantuml/png/{encoded}"
+print(f"URL: {url}")
+
+output_path = "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png"
+urllib.request.urlretrieve(url, output_path)
+file_size = os.path.getsize(output_path)
+print(f"Downloaded {file_size} bytes to {output_path}")
+PYEOF
+             ^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 403: Forbidden
+Let me try with HTTPS and proper headers.
+python3 << 'PYEOF'
+import zlib
+import urllib.request
+import os
+
+puml_path = "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.puml"
+with open(puml_path, 'r') as f:
+    plantuml_text = f.read()
+
+def encode_plantuml(text):
+    compressed = zlib.compress(text.encode('utf-8'))[2:-4]
+    alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
+    encoded = ""
+    data = compressed
+    i = 0
+    while i < len(data):
+        if i + 2 < len(data):
+            b1, b2, b3 = data[i], data[i+1], data[i+2]
+        elif i + 1 < len(data):
+            b1, b2, b3 = data[i], data[i+1], 0
+        else:
+            b1, b2, b3 = data[i], 0, 0
+        encoded += alphabet[b1 >> 2]
+        encoded += alphabet[((b1 & 0x3) << 4) | (b2 >> 4)]
+        encoded += alphabet[((b2 & 0xF) << 2) | (b3 >> 6)]
+        encoded += alphabet[b3 & 0x3F]
+        i += 3
+    return encoded
+
+encoded = encode_plantuml(plantuml_text)
+url = f"https://www.plantuml.com/plantuml/png/{encoded}"
+
+req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+output_path = "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png"
+
+with urllib.request.urlopen(req) as response:
+    with open(output_path, 'wb') as out_file:
+        out_file.write(response.read())
+
+file_size = os.path.getsize(output_path)
+print(f"Success! Downloaded {file_size} bytes to {output_path}")
+PYEOF
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/urllib/request.py", line 1347, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)>
+which curl && curl --version | head -1
+/usr/bin/curl
+curl 8.7.1 (x86_64-apple-darwin24.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.64.0
+python3 << 'PYEOF'
+import zlib
+
+puml_path = "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.puml"
+with open(puml_path, 'r') as f:
+    plantuml_text = f.read()
+
+def encode_plantuml(text):
+    compressed = zlib.compress(text.encode('utf-8'))[2:-4]
+    alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
+    encoded = ""
+    data = compressed
+    i = 0
+    while i < len(data):
+        if i + 2 < len(data):
+            b1, b2, b3 = data[i], data[i+1], data[i+2]
+        elif i + 1 < len(data):
+            b1, b2, b3 = data[i], data[i+1], 0
+        else:
+            b1, b2, b3 = data[i], 0, 0
+        encoded += alphabet[b1 >> 2]
+        encoded += alphabet[((b1 & 0x3) << 4) | (b2 >> 4)]
+        encoded += alphabet[((b2 & 0xF) << 2) | (b3 >> 6)]
+        encoded += alphabet[b3 & 0x3F]
+        i += 3
+    return encoded
+
+encoded = encode_plantuml(plantuml_text)
+print(encoded)
+PYEOF
+RLFBRi8m4BpxAwoSe104LKzH6u5esY853a5LZvP9N6er3sGlhIZYt-jid1SY5qSpi-FnE9bhu0gEMKfbBa7obCKfrvebakyLpmZHtp8_SFDAaLW0ABaxWbZ5HRwLVu9EhoKlHGx8p1vkKd1A1TqLQK88WdHT_4X1puIQvspoW8mlT1G5h-_X8gAUIGRqoUpJvpV11uk2C5XiWqOpkz8itrRXSnHijetY7XKk0macXKSrA8iSb8m5Yuj4L6A4HuoLlJ0sm84nRLN3Ih0NK9aDXXqxX5ijSesdxdEv-6LTsqlTIoHouAajncKPrkHLTLaiuITzCowAhNPCInbJnauaAEvaxr3zb2M9BWYtco8HVt6rhvZFjE3GXbuUDHIPK7Nid6UzdXKUgWmTIWsFrHdzg_Jb4CvqWfPOlsEU9Aoo6rIBPokpK-Ld83A3D6CcPPFFcJcqS5tgJ2UJEwSkswDrG9zOg1Iwhe_hsjw1lGoVaBd84_Fxa7y0
+curl -s -o "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png" "https://www.plantuml.com/plantuml/png/RLFBRi8m4BpxAwoSe104LKzH6u5esY853a5LZvP9N6er3sGlhIZYt-jid1SY5qSpi-FnE9bhu0gEMKfbBa7obCKfrvebakyLpmZHtp8_SFDAaLW0ABaxWbZ5HRwLVu9EhoKlHGx8p1vkKd1A1TqLQK88WdHT_4X1puIQvspoW8mlT1G5h-_X8gAUIGRqoUpJvpV11uk2C5XiWqOpkz8itrRXSnHijetY7XKk0macXKSrA8iSb8m5Yuj4L6A4HuoLlJ0sm84nRLN3Ih0NK9aDXXqxX5ijSesdxdEv-6LTsqlTIoHouAajncKPrkHLTLaiuITzCowAhNPCInbJnauaAEvaxr3zb2M9BWYtco8HVt6rhvZFjE3GXbuUDHIPK7Nid6UzdXKUgWmTIWsFrHdzg_Jb4CvqWfPOlsEU9Aoo6rIBPokpK-Ld83A3D6CcPPFFcJcqS5tgJ2UJEwSkswDrG9zOg1Iwhe_hsjw1lGoVaBd84_Fxa7y0" && echo "Success" && ls -la "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png"
+Success
+-rw-r--r--@ 1 melsharif2  967477814  15712 Apr 16 01:39 /Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png
+Let me verify the PNG is a valid image file.
+file "/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png"
+/Users/melsharif2/Documents/Git/468/Assignment_4/VideoStore/docs/initial class diagram/initial_class_diagram.png: PNG image data, 321 x 661, 8-bit colormap, non-interlaced
+Let me view the generated diagram to make sure it looks correct.
+The diagram looks correct and complete. Both files have been saved to VideoStore/docs/initial class diagram/:
+initial_class_diagram.puml - the PlantUML source code
+initial_class_diagram.png - the rendered class diagram
+The diagram captures the full initial state of the system:
+Movie - 3 class constants (REGULAR, NEW_RELEASE, CHILDRENS), 2 private attributes (_title, _price_code), and 4 methods including the constructor, getters, and setter.
+Rental - 2 private attributes (_movie, _days), and 4 methods including the constructor, getters, and get_charge() which contains the pricing logic.
+Customer - 2 private attributes (name, rentals), and 4 methods including the constructor, getter, add_rental(), and statement().
+Relationships: Customer aggregates 0..* Rentals, and each Rental is associated with exactly 1 Movie.

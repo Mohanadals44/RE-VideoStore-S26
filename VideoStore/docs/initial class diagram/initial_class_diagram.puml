@@ -1,0 +1,40 @@
+@startuml initial_class_diagram
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 14
+skinparam classFontStyle bold
+
+class Movie {
+    {static} +REGULAR : int = 0
+    {static} +NEW_RELEASE : int = 1
+    {static} +CHILDRENS : int = 2
+    -_title : str
+    -_price_code : int
+    +__init__(title, price_code)
+    +get_title() : str
+    +get_price_code() : int
+    +set_price_code(new_price_code)
+}
+
+class Rental {
+    -_movie : Movie
+    -_days : int
+    +__init__(movie: Movie, days_rented: int)
+    +get_days_rented() : int
+    +get_movie() : Movie
+    +get_charge() : float
+}
+
+class Customer {
+    -name : str
+    -rentals : List<Rental>
+    +__init__(name: str)
+    +get_name() : str
+    +add_rental(rental: Rental)
+    +statement() : str
+}
+
+Customer "1" o-- "0..*" Rental : rentals >
+Rental "1" --> "1" Movie : _movie >
+
+@enduml
