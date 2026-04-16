@@ -1,0 +1,44 @@
+== Question 2: AI Chat Log ==
+
+USER:
+The file VideoStore/src/Rental_t.py is a placeholder with no real tests. Write unit tests for the Rental class using unittest, following the same pattern as Movie_t.py and Customer_t.py. Test get_days_rented(), get_movie(), and get_charge() for all three movie types.
+
+ASSISTANT:
+[Read all four files: Movie_t.py, Customer_t.py, Rental_t.py, and Rental.py to understand the test patterns and the charge logic]
+
+The charge logic has these branches:
+- REGULAR: base $2; if days > 2, add (days - 2) * 1.5
+- NEW_RELEASE: days * 3
+- CHILDRENS: base $1.5; if days > 3, add (days - 3) * 1.5
+
+[Wrote Rental_t.py with 14 unit tests using unittest, following the same style as Movie_t.py]
+
+Tests written:
+
+  get_movie():
+    - test_get_movie: verifies returned object is the same Movie instance, with correct title and price code
+
+  get_days_rented():
+    - test_get_days_rented: 5 days
+    - test_get_days_rented_one_day: 1 day
+
+  get_charge() for REGULAR:
+    - test_charge_regular_one_day: 1 day -> $2
+    - test_charge_regular_two_days: 2 days -> $2 (boundary)
+    - test_charge_regular_three_days: 3 days -> $3.50 (just over threshold)
+    - test_charge_regular_five_days: 5 days -> $6.50
+
+  get_charge() for NEW_RELEASE:
+    - test_charge_new_release_one_day: 1 day -> $3
+    - test_charge_new_release_two_days: 2 days -> $6
+    - test_charge_new_release_five_days: 5 days -> $15
+
+  get_charge() for CHILDRENS:
+    - test_charge_childrens_one_day: 1 day -> $1.50
+    - test_charge_childrens_three_days: 3 days -> $1.50 (boundary)
+    - test_charge_childrens_four_days: 4 days -> $3.00 (just over threshold)
+    - test_charge_childrens_six_days: 6 days -> $6.00
+
+[Ran tests: python3 -m unittest Rental_t -v]
+
+All 14 tests passed. Each movie type tests both below/at the threshold and above it to exercise every branch in get_charge().
