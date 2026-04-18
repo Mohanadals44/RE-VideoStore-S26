@@ -1,0 +1,45 @@
+== Question 4: AI Chat Log ==
+
+USER:
+Perform a "Replace Temp with Query" refactoring: in Customer.statement(), eliminate the total_amount variable by creating a new private method getTotalCharge() in the Customer class. This method should loop through all rentals and sum up their charges. Replace the usage of total_amount in the output with a call to getTotalCharge(). The behavior must not change. Run all tests afterwards to confirm nothing broke.
+
+AI:
+[Read Customer.py to understand the current statement() method]
+
+[Added _get_total_charge() to Customer class:]
+
+    def _get_total_charge(self) -> float:
+        total = 0.0
+        for rental in self.rentals:
+            total += rental.get_charge()
+        return total
+
+[Updated statement() — removed total_amount variable and its accumulation in the loop:]
+
+Before:
+    def statement(self) -> str:
+        result = f"Rental Record for {self.get_name()}\n"
+        total_amount = 0.0
+        frequent_renter_points = 0
+
+        for rental in self.rentals:
+            frequent_renter_points += rental.get_frequent_renter_points()
+            result += f"\t{rental.get_movie().get_title()}\t" + ...
+            total_amount += rental.get_charge()
+
+        result += f"Amount owed is: {total_amount:.2f}"...
+
+After:
+    def statement(self) -> str:
+        result = f"Rental Record for {self.get_name()}\n"
+        frequent_renter_points = 0
+
+        for rental in self.rentals:
+            frequent_renter_points += rental.get_frequent_renter_points()
+            result += f"\t{rental.get_movie().get_title()}\t" + ...
+
+        result += f"Amount owed is: {self._get_total_charge():.2f}"...
+
+[Ran all tests: python3 -m unittest Movie_t Rental_t Customer_t -v]
+
+All 22 tests passed. The total_amount temp variable is eliminated; statement() now calls _get_total_charge() instead. Behavior is identical.
