@@ -1,0 +1,32 @@
+== Question 3: AI Chat Log ==
+
+USER:
+Perform an "Extract Method" refactoring: the frequent renter points logic currently lives inside Customer.statement(). Create a new method getFrequentRenterPoints() in Rental.py that encapsulates that logic, and update Customer.statement() to call it instead. The behavior must not change. Run all existing tests afterwards to confirm nothing broke.
+
+AI:
+[Read Customer.py and Rental.py to understand the exact logic]
+
+The frequent renter points logic in Customer.statement() (lines 26-30) is: 1 point per rental, plus a bonus point if the movie is a NEW_RELEASE rented for more than 1 day. I'll extract that into Rental.get_frequent_renter_points() and update Customer.statement() to call it.
+
+[Added get_frequent_renter_points() to Rental.py:]
+
+    def get_frequent_renter_points(self):
+        if self.get_movie().get_price_code() == Movie.NEW_RELEASE and self.get_days_rented() > 1:
+            return 2
+        return 1
+
+[Updated Customer.statement() — replaced the inline logic:]
+
+Before:
+        for rental in self.rentals:
+            frequent_renter_points += 1
+            if rental.get_movie().get_price_code() == Movie.NEW_RELEASE and rental.get_days_rented() > 1:
+                frequent_renter_points += 1
+
+After:
+        for rental in self.rentals:
+            frequent_renter_points += rental.get_frequent_renter_points()
+
+[Ran all tests: python3 -m unittest Movie_t Rental_t Customer_t -v]
+
+All 22 tests passed. The points calculation now lives in the Rental class where it belongs, and Customer.statement() simply calls it. Behavior is identical.

@@ -52,3 +52,13 @@ class Rental:
                 this_amount += (self.get_days_rented() - 3) * 1.5
 
         return this_amount
+
+    def get_frequent_renter_points(self):
+        """
+        Calculate frequent renter points for this rental.
+
+        :return: Integer representing the frequent renter points earned.
+        """
+        if self.get_movie().get_price_code() == Movie.NEW_RELEASE and self.get_days_rented() > 1:
+            return 2
+        return 1
