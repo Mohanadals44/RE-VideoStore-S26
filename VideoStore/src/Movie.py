@@ -2,6 +2,30 @@
 
 # Class for Movie
 
+from abc import ABC, abstractmethod
+
+
+class Price(ABC):
+    @abstractmethod
+    def get_price_code(self):
+        pass
+
+
+class RegularPrice(Price):
+    def get_price_code(self):
+        return Movie.REGULAR
+
+
+class NewReleasePrice(Price):
+    def get_price_code(self):
+        return Movie.NEW_RELEASE
+
+
+class ChildrensPrice(Price):
+    def get_price_code(self):
+        return Movie.CHILDRENS
+
+
 class Movie:
     # Class constants for price codes
     REGULAR = 0

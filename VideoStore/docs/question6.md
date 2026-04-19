@@ -9,21 +9,21 @@ Declare a pure virtual method ```getPriceCode``` in class ```Price```.  Define a
 
 (Note: Pure virtual functions are not supported in Python but you can mimic it. Think about how you would do it.)
 
-**Start Day/Time:**  enter date and time here
+**Start Day/Time:**  april 18 6:54
 
 **How did you decide whether the AI’s output was useful, accurate, or appropriate?**
 
-write answer here
+I checked that the AI created an abstract Price class with a getPriceCode method that raises NotImplementedError, and that each subclass RegularPrice, ChildrensPrice, NewReleasePrice returns the correct Movie constant. I also verified that nothing else in the codebase was changed and ran all the tests to make sure they still passed.
 
 **What changes did you make to the AI‑generated material? Be specific.**
 
-write answer here
+I have not made any changes to the code
 
 **I copied my AI-assisted chat log to ./docs/log6.txt**
-[ ] Yes [ ] No 
+[ yes ] Yes [ ] No 
 
 **Difficulty Level:**
-[ ] Easy  [ ] Avg  [ ] Difficult
+[ yes] Easy  [ ] Avg  [ ] Difficult
 
-**End Day/Time:** enter date and time here
+**End Day/Time:** april 18  7::20
 

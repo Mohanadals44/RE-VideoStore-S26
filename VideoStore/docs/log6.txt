@@ -1,0 +1,38 @@
+== Question 6: AI Chat Log ==
+
+USER:
+Add an abstract class Price in Movie.py with a pure virtual getPriceCode() method. Create three subclasses: RegularPrice, ChildrensPrice, and NewReleasePrice, each returning the matching Movie constant. Don't change how Movie uses price_code yet. Run all tests to confirm nothing broke.
+
+AI:
+[Read Movie.py to see the current state]
+
+[Added the Price hierarchy above the Movie class in Movie.py:]
+
+from abc import ABC, abstractmethod
+
+
+class Price(ABC):
+    @abstractmethod
+    def get_price_code(self):
+        pass
+
+
+class RegularPrice(Price):
+    def get_price_code(self):
+        return Movie.REGULAR
+
+
+class NewReleasePrice(Price):
+    def get_price_code(self):
+        return Movie.NEW_RELEASE
+
+
+class ChildrensPrice(Price):
+    def get_price_code(self):
+        return Movie.CHILDRENS
+
+The Movie class itself is unchanged — it still uses _price_code as an int. The new hierarchy is in place and ready for the next refactoring step.
+
+[Ran all tests: python3 -m unittest Movie_t Rental_t Customer_t -v]
+
+All 22 tests passed. Nothing broke.

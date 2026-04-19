@@ -1,0 +1,47 @@
+== Question 5: AI Chat Log ==
+
+USER:
+Perform a Move Method refactoring: the method getCharge in Rental.py accesses more information from Movie than from Rental itself. Create a new method getCharge(days_rented) in the Movie class that contains the pricing logic (the if/elif block). Then update Rental.getCharge() to be a simple wrapper that calls self.get_movie().getCharge(self.get_days_rented()) and returns the result. The behavior must not change. Run all tests afterwards to confirm nothing broke.
+
+AI:
+[Read Movie.py and Rental.py to understand the current code]
+
+[Added get_charge(days_rented) to Movie.py with the full pricing logic:]
+
+    def get_charge(self, days_rented):
+        this_amount = 0
+
+        if self._price_code == Movie.REGULAR:
+            this_amount += 2
+            if days_rented > 2:
+                this_amount += (days_rented - 2) * 1.5
+        elif self._price_code == Movie.NEW_RELEASE:
+            this_amount += days_rented * 3
+        elif self._price_code == Movie.CHILDRENS:
+            this_amount += 1.5
+            if days_rented > 3:
+                this_amount += (days_rented - 3) * 1.5
+
+        return this_amount
+
+[Updated Rental.get_charge() — replaced the full if/elif block with a one-liner delegation:]
+
+Before:
+    def get_charge(self):
+        this_amount = 0
+        price_code = self.get_movie().get_price_code()
+        if price_code == Movie.REGULAR:
+            ...
+        elif price_code == Movie.NEW_RELEASE:
+            ...
+        elif price_code == Movie.CHILDRENS:
+            ...
+        return this_amount
+
+After:
+    def get_charge(self):
+        return self.get_movie().get_charge(self.get_days_rented())
+
+[Ran all tests: python3 -m unittest Movie_t Rental_t Customer_t -v]
+
+All 22 tests passed. The pricing logic now lives in Movie where it belongs, and Rental.get_charge() simply delegates to it. Behavior is identical.
