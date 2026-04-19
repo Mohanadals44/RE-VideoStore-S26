@@ -1,0 +1,55 @@
+== Question 7: AI Chat Log ==
+
+USER:
+In Movie.py, change price_code from an int to a Price object. Update setPriceCode to create the correct Price subclass instance (RegularPrice, NewReleasePrice, or ChildrensPrice) based on the integer code passed in. Update getPriceCode to call getPriceCode() on the Price object. Run all tests to confirm nothing broke.
+
+AI:
+[Read Movie.py to see the current state]
+
+[Updated __init__ to call set_price_code instead of storing the int directly:]
+
+Before:
+    self._price_code = price_code
+
+After:
+    self.set_price_code(price_code)
+
+[Updated set_price_code to map int -> Price object:]
+
+    def set_price_code(self, price_code):
+        if price_code == Movie.REGULAR:
+            self._price = RegularPrice()
+        elif price_code == Movie.NEW_RELEASE:
+            self._price = NewReleasePrice()
+        elif price_code == Movie.CHILDRENS:
+            self._price = ChildrensPrice()
+        else:
+            raise ValueError(f"Invalid price code: {price_code}")
+
+[Updated get_price_code to delegate to the Price object:]
+
+    def get_price_code(self):
+        return self._price.get_price_code()
+
+[Ran tests — 13 failures due to get_charge still referencing self._price_code]
+
+[Fixed get_charge to use self.get_price_code() instead of self._price_code:]
+
+Before:
+    if self._price_code == Movie.REGULAR:
+    ...
+    elif self._price_code == Movie.NEW_RELEASE:
+    ...
+    elif self._price_code == Movie.CHILDRENS:
+
+After:
+    price_code = self.get_price_code()
+    if price_code == Movie.REGULAR:
+    ...
+    elif price_code == Movie.NEW_RELEASE:
+    ...
+    elif price_code == Movie.CHILDRENS:
+
+[Ran all tests again: python3 -m unittest Movie_t Rental_t Customer_t -v]
+
+All 22 tests passed. The external interface is unchanged — callers still pass and receive ints — but internally, Movie now uses Price objects.

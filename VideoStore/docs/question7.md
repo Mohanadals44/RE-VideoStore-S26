@@ -7,21 +7,20 @@ Change the method ```setPriceCode``` to set the variable ```price_code``` to a n
 
 Change the method ```getPriceCode``` to call the method ```getPriceCode``` on the ```Price``` object and return that value.
 
-**Start Day/Time:**  enter date and time here
+**Start Day/Time:**  april 19 12:04 pm
 
-**How did you decide whether the AI’s output was useful, accurate, or appropriate?**
+**How did you decide whether the AI's output was useful, accurate, or appropriate?**
 
-write answer here
+I looked at the updated setPriceCode and confirmed it maps each integer code to the correct Price subclass object. I also checked that getPriceCode now delegates to the Price object instead of returning the int directly. I ran all the tests and they passed which confirmed the type change did not break any existing behavior.
 
 **What changes did you make to the AI‑generated material? Be specific.**
 
-write answer here
+I did not make any changes to the generated code since the logic was correct
 
 **I copied my AI-assisted chat log to ./docs/log7.txt**
-[ ] Yes [ ] No 
+[yes ] Yes [ ] No 
 
 **Difficulty Level:**
-[ ] Easy  [ ] Avg  [ ] Difficult
+[yes ] Easy  [ ] Avg  [ ] Difficult
 
-**End Day/Time:** enter date and time here
-
+**End Day/Time:** april 19 12:26 pm

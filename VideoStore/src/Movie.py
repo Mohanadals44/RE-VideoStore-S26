@@ -37,7 +37,7 @@ class Movie:
         Constructor to initialize movie title and price code
         """
         self._title = title
-        self._price_code = price_code
+        self.set_price_code(price_code)
 
     def get_title(self):
         """
@@ -49,13 +49,20 @@ class Movie:
         """
         Getter for movie price code
         """
-        return self._price_code
+        return self._price.get_price_code()
 
-    def set_price_code(self, new_price_code):
+    def set_price_code(self, price_code):
         """
-        Setter for movie price code
+        Setter for movie price code. Accepts an int and stores the corresponding Price object.
         """
-        self._price_code = new_price_code
+        if price_code == Movie.REGULAR:
+            self._price = RegularPrice()
+        elif price_code == Movie.NEW_RELEASE:
+            self._price = NewReleasePrice()
+        elif price_code == Movie.CHILDRENS:
+            self._price = ChildrensPrice()
+        else:
+            raise ValueError(f"Invalid price code: {price_code}")
 
     def get_charge(self, days_rented):
         """
@@ -66,13 +73,15 @@ class Movie:
         """
         this_amount = 0
 
-        if self._price_code == Movie.REGULAR:
+        price_code = self.get_price_code()
+
+        if price_code == Movie.REGULAR:
             this_amount += 2
             if days_rented > 2:
                 this_amount += (days_rented - 2) * 1.5
-        elif self._price_code == Movie.NEW_RELEASE:
+        elif price_code == Movie.NEW_RELEASE:
             this_amount += days_rented * 3
-        elif self._price_code == Movie.CHILDRENS:
+        elif price_code == Movie.CHILDRENS:
             this_amount += 1.5
             if days_rented > 3:
                 this_amount += (days_rented - 3) * 1.5
