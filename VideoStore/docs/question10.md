@@ -3,7 +3,7 @@ Generate acceptance criteria for the VideoStore based on the requirements you ge
 
 For each acceptance criteria list, make sure there is an appropriate test in place to run and test if it holds. 
 
-**Start Day/Time:**  enter date and time here
+**Start Day/Time:**  april 19 1:10 am
 
 **How did you decide whether the AI's output was useful, accurate, or appropriate?**
 
@@ -19,5 +19,5 @@ I did not make changes since the criteria matched the requirements and the tests
 **Difficulty Level:**
 [yes ] Easy  [ ] Avg  [ ] Difficult
 
-**End Day/Time:** enter date and time here
+**End Day/Time:** april 19 1:30 am
 

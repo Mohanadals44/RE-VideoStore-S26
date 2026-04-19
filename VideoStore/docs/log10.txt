@@ -1,0 +1,39 @@
+== Question 10: AI Chat Log ==
+
+USER:
+Based on the requirements in docs/requirements.md, generate acceptance criteria for the VideoStore system. For each criteria, make sure there is a corresponding test case that validates it. Save the result in docs/acceptanceCriteria.md.
+
+AI:
+[Read requirements.md and all three test files: Movie_t.py, Rental_t.py, Customer_t.py]
+
+[Created docs/acceptanceCriteria.md with 28 acceptance criteria across 9 sections, each mapped to validating test(s):]
+
+1. Movie Management (AC-1.1 to AC-1.5)
+   - Creating movies with each price code -> Movie_t.test_regular_movie, test_new_release, test_childrens
+   - Title with spaces -> Movie_t.test_longer_title
+   - Changing price category -> Movie_t.test_change_price
+
+2. Customer Management (AC-2.1)
+   - Customer name stored and returned -> Customer_t.test_no_rental
+
+3. Rental Management (AC-3.1 to AC-3.5)
+   - Rental stores movie and days -> Rental_t.test_get_movie, test_get_days_rented
+   - Zero, one, multiple rentals -> Customer_t.test_no_rental, test_one_rental, test_two_rentals
+
+4. Charge Calculation — Regular (AC-4.1 to AC-4.4)
+   - 1 day=$2, 2 days=$2, 3 days=$3.50, 5 days=$6.50 -> Rental_t charge tests
+
+5. Charge Calculation — New Release (AC-5.1 to AC-5.3)
+   - 1 day=$3, 2 days=$6, 5 days=$15 -> Rental_t charge tests
+
+6. Charge Calculation — Children's (AC-6.1 to AC-6.4)
+   - 1 day=$1.50, 3 days=$1.50, 4 days=$3.00, 6 days=$6.00 -> Rental_t charge tests
+
+7. Total Charge (AC-7.1 to AC-7.3)
+   - Zero rentals=0, one rental, sum of multiple -> Customer_t tests
+
+8. Frequent Renter Points (AC-8.1 to AC-8.4)
+   - 0 rentals=0 points, 1 regular=1 point, new release >1 day=2 points -> Customer_t tests
+
+9. Statement Output Format (AC-9.1 to AC-9.6)
+   - Header, rental lines, trailing zeros removed, total line, points line, no-rental case -> Customer_t tests
