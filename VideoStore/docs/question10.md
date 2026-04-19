@@ -5,23 +5,19 @@ For each acceptance criteria list, make sure there is an appropriate test in pla
 
 **Start Day/Time:**  enter date and time here
 
-**How did you decide whether the AI’s output was useful, accurate, or appropriate?**
+**How did you decide whether the AI's output was useful, accurate, or appropriate?**
 
-write answer here
+I checked that each acceptance criteria mapped back to a requirement from question 9 and that it was testable. I then looked at the existing test cases to see if they already covered each criteria and confirmed that there were tests in place to validate them.
 
 **What changes did you make to the AI‑generated material? Be specific.**
 
-write answer here
+I did not make changes since the criteria matched the requirements and the tests covered them
 
 **I copied my AI-assisted chat log to ./docs/log10.txt**
-[ ] Yes [ ] No 
+[yes ] Yes [ ] No 
 
 **Difficulty Level:**
-[ ] Easy  [ ] Avg  [ ] Difficult
+[yes ] Easy  [ ] Avg  [ ] Difficult
 
 **End Day/Time:** enter date and time here
-
-
-
-
 
